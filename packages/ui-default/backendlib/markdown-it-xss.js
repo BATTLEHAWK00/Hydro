@@ -66,6 +66,11 @@ const xss = new Xss.FilterXSS({
     var: [],
     video: ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width'],
   },
+  safeAttrValue(tag, name, value) {
+    if (name === 'id') return `xss-id-${value}`;
+    if (name === 'href') return value.startsWith('#') ? `#xss-id-${value.substring(1)}` : value;
+    return value;
+  },
 });
 
 function xssProtector(md) {
